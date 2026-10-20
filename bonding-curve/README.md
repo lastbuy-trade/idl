@@ -9,8 +9,8 @@ Source: [`idl.json`](./idl.json)
 | Cluster  | Address | Status |
 |----------|---------|--------|
 | Mainnet  | `Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf` | **Not deployed yet** |
-| Devnet   | `Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf` | Deployed |
-| Testnet  | `Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf` | Deployed |
+| Devnet   | [`Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf`](https://solscan.io/account/Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf?cluster=devnet) | Deployed |
+| Testnet  | [`Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf`](https://solscan.io/account/Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf?cluster=testnet) | Deployed |
 
 > The same program address is used on all clusters. The program is **not deployed to mainnet yet**.
 
