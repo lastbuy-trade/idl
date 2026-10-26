@@ -1106,10 +1106,6 @@
           }
         },
         {
-          "name": "token_program",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-        },
-        {
           "name": "token_2022_program",
           "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
         },
@@ -1570,14 +1566,6 @@
               }
             ]
           }
-        },
-        {
-          "name": "curve_creator",
-          "docs": [
-            "",
-            "system account"
-          ],
-          "writable": true
         },
         {
           "name": "curve",
