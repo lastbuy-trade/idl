@@ -10,7 +10,7 @@ Source: [`idl.json`](./idl.json)
 |----------|---------|--------|
 | Mainnet  | `Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf` | **Not deployed yet** |
 | Devnet   | [`Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf`](https://solscan.io/account/Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf?cluster=devnet) | Deployed |
-| Testnet  | [`Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf`](https://solscan.io/account/Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf?cluster=testnet) | Deployed |
+| Testnet  | [`Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf`](https://solscan.io/account/Lbuyii1PVUvt9xToGuyUf6CQCDbdRRzzo8SsHuNYMkf?cluster=testnet) | Deployed (not updated) |
 
 > The same program address is used on all clusters. The program is **not deployed to mainnet yet**.
 
