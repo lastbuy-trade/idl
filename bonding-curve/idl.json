@@ -231,6 +231,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": [
@@ -700,6 +706,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -802,6 +814,12 @@
               }
             ]
           }
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -904,6 +922,12 @@
         },
         {
           "name": "mint"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -1116,6 +1140,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -1198,6 +1228,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -1413,6 +1449,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": [
@@ -1861,6 +1903,12 @@
         {
           "name": "rent",
           "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -2197,6 +2245,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": []
@@ -2424,6 +2478,12 @@
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
         }
       ],
       "args": [
