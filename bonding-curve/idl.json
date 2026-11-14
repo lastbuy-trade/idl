@@ -11,7 +11,9 @@
       "docs": [
         "# Token buy instruction",
         "",
-        "Tracks last buyer and automatically defines winner"
+        "Tracks qualifying last buys and the longest observed hold duration.",
+        "Defines the canonical winner when the timer expires; reaching the SOL",
+        "threshold graduates the curve and disables further swaps."
       ],
       "discriminator": [
         2,
@@ -253,9 +255,11 @@
     {
       "name": "claim_creator_fee",
       "docs": [
-        "# Claim creator fees accumulated from Raydium CPMM swaps",
+        "# Collect fees earned by locked Raydium CPMM liquidity",
         "",
-        "NOTE: bonding curve fees are routed to `curve.creator` automatically, whereas fees from CPMM - require manual instruction call"
+        "The migration funder collects these fees through the pool creator PDA;",
+        "protocol fees apply only to the SOL portion. Bonding curve creator fees",
+        "are paid automatically to `curve.creator` during swaps."
       ],
       "discriminator": [
         26,
@@ -719,9 +723,10 @@
     {
       "name": "claim_prize_idempotent",
       "docs": [
-        "# CLaim rewards from `PRIZE_POOL`",
+        "# Claim the prize pool once",
         "",
-        "If invoked separately from `define_winner_idempotent` while winner is undefined - fails"
+        "The canonical winner can claim once defined. The alternative winner can",
+        "claim from graduation onward only when no canonical winner exists."
       ],
       "discriminator": [
         140,
@@ -827,9 +832,10 @@
     {
       "name": "define_winner_idempotent",
       "docs": [
-        "# Manual instruction to define winner",
+        "# Define the canonical winner after the Last Buy timer expires",
         "",
-        "It's highly recommended to be invoked in pair with `claim_last_buyer_prize`"
+        "Has no effect unless the curve is Active or AlternativeWinnerDefined and",
+        "the timer has expired. The winner can then call `claim_prize_idempotent`."
       ],
       "discriminator": [
         188,
@@ -937,7 +943,8 @@
       "docs": [
         "# Admin emergency instruction",
         "",
-        "Takes all liquidity from `bonding_curve` and sends to `ctx.accounts.recipient`"
+        "Halts the curve and transfers its tokens and available SOL to the recipient.",
+        "Preserves curve rent and refunds migration coverage to the recorded funder."
       ],
       "discriminator": [
         158,
@@ -1157,7 +1164,9 @@
         "",
         "Can be called with `launch` instruction as well as separately",
         "",
-        "The funder becomes the account that receives all trading fees from pool on Raydium CPMM"
+        "Records the funder whose pool creator PDA will own the locked-liquidity",
+        "fee NFT. The funder can collect those fees through `claim_creator_fee`,",
+        "subject to the protocol fee on the SOL portion."
       ],
       "discriminator": [
         128,
@@ -1475,7 +1484,8 @@
         "",
         "Takes liquidity (TOKEN only) from Bonding Curve and routes it to pool creator",
         "",
-        "Initializes Raydium CPMM pool, provides liquidity and burns LP tokens",
+        "Initializes a Raydium CPMM pool and locks its LP tokens through the",
+        "configured Raydium lock program, with the pool creator owning the fee NFT.",
         "",
         "Unlocks `claim_creator_fee`"
       ],
@@ -1528,14 +1538,9 @@
         {
           "name": "pool_creator",
           "docs": [
-            "Creator PDA owned by SystemProgram",
-            "",
-            "Raydium CPMM trade fees will route to this account,",
-            "in order to claim them - invoke `claim_creator_fee` instruction",
-            "",
-            "To stimulate other users to fund migration, we allow them to become a pool creator in order to earn fees",
-            "",
-            "`curve.migration_funder` can be anyone"
+            "System-owned PDA derived from the migration funder and curve.",
+            "Holds migration coverage and owns the locked-liquidity fee NFT.",
+            "The funder collects fees through `claim_creator_fee`."
           ],
           "writable": true,
           "pda": {
@@ -1918,9 +1923,12 @@
       "docs": [
         "# Permissionless prepare migration instruction",
         "",
-        "If winner is not defined and `prize_pool.amount_sol` > 0, splits prize equally among protocol fee recipients & creator",
+        "Requires a funded, graduated curve. If neither winner exists and the",
+        "tracked prize amount is positive, splits the available prize",
+        "half to the creator and half to the protocol's two fee recipients.",
         "",
-        "Takes liquidity (SOL only) from Bonding Curve and routes it to pool creator, locking `claim_creator_fee`"
+        "Moves migration SOL to the pool creator's WSOL account and remaining",
+        "coverage to its system account; locks `claim_creator_fee` until `migrate`."
       ],
       "discriminator": [
         59,
@@ -1946,14 +1954,9 @@
         {
           "name": "pool_creator",
           "docs": [
-            "Creator PDA owned by SystemProgram",
-            "",
-            "Raydium CPMM trade fees will route to this account,",
-            "in order to claim them - invoke `claim_creator_fee` instruction",
-            "",
-            "To stimulate other users to fund migration, we allow them to become a pool creator in order to earn fees",
-            "",
-            "`curve.migration_funder` can be anyone",
+            "System-owned PDA derived from the migration funder and curve.",
+            "Holds migration coverage and owns the locked-liquidity fee NFT.",
+            "The funder collects fees through `claim_creator_fee`.",
             ""
           ],
           "writable": true,
@@ -2030,10 +2033,6 @@
         },
         {
           "name": "curve_creator",
-          "docs": [
-            "",
-            "system account"
-          ],
           "writable": true
         },
         {
@@ -3074,7 +3073,7 @@
           {
             "name": "creator",
             "docs": [
-              "fees are automatically distributed to token creator"
+              "Token creator receiving the creator portion of bonding curve swap fees."
             ],
             "type": "pubkey"
           },
@@ -3097,16 +3096,16 @@
           {
             "name": "max_hold_duration_secs",
             "docs": [
-              "`max_hold_duration_secs` and `max_duration_holder` are used to track the holder with the max duration",
-              "in order to define alternative winner if canonical winner is undefined"
+              "Longest last-buyer interval observed by a subsequent buy before canonical",
+              "winner selection; this does not measure token ownership duration."
             ],
             "type": "i64"
           },
           {
             "name": "max_duration_holder",
             "docs": [
-              "`max_hold_duration_secs` and `max_duration_holder` are used to track the holder with the max duration",
-              "in order to define alternative winner if canonical winner is undefined"
+              "Last buyer associated with the longest observed interval. Used as the",
+              "alternative winner, eligible from graduation if no canonical winner exists."
             ],
             "type": "pubkey"
           },
@@ -3560,7 +3559,8 @@
           {
             "name": "is_fee_claim_locked",
             "docs": [
-              "this flag basically indicates whether or not fees can be claimed, acts as a guard, so fees cannot be claimed during prepare_migration ix"
+              "Set by `prepare_migration` and cleared by `migrate`; blocks fee claims",
+              "while the pool creator holds funds reserved for migration."
             ],
             "type": "bool"
           }
@@ -3666,6 +3666,9 @@
           },
           {
             "name": "raydium_amm_config",
+            "docs": [
+              "Configured Raydium AMM config account used for pool initialization and fee claims."
+            ],
             "type": "pubkey"
           },
           {
@@ -3759,13 +3762,9 @@
     {
       "name": "MIN_SOL_IN_THRESHOLD",
       "docs": [
-        "0.001 SOL represented in lamports",
-        "",
-        "if `sol_in` < `MIN_SOL_IN_THRESHOLD` contract does not update `curve.last_buyer` to prevent dust griffing",
-        "",
-        "Minimum SOL amount required for a buy to become the new Last Buy.",
-        "Smaller buys are valid trades but do not affect the Last Buy timer",
-        "or winner eligibility."
+        "Minimum gross buy amount (0.001 SOL in lamports) that can replace the",
+        "last buyer and reset the timer while no canonical winner is defined.",
+        "Smaller buys still check hold records, timer expiry, and graduation."
       ],
       "type": "u64",
       "value": "1000000"
