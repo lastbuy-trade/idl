@@ -3477,6 +3477,14 @@
             "type": "i64"
           },
           {
+            "name": "last_buy_timer_secs_snapshot",
+            "type": "i64"
+          },
+          {
+            "name": "migration_threshold_sol_snapshot",
+            "type": "u64"
+          },
+          {
             "name": "token_name",
             "type": "string"
           },
